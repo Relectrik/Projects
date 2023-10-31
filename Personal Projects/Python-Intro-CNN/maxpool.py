@@ -3,6 +3,16 @@ import numpy as np
 
 class MaxPool2:
     def iterate_regions(self, image):
+        """
+        Generates non-overlapping 2x2 image regions
+
+        Parameters:
+            image:
+                2D numpy array
+
+        Yields:
+            All valid 2x2 image regions
+        """
         h, w, _ = image.shape
         new_h = h // 2
         new_w = w // 2
@@ -13,6 +23,16 @@ class MaxPool2:
                 yield im_region, i, j
 
     def forward(self, input):
+        """
+        Forward pass of maxpool layer using the 3D numpy array passed in
+
+        Parameters:
+            image:
+                3D numpy array
+
+        Returns:
+            3D Numpy array with dimensions (h / 2, w / 2, num_filters)
+        """
         h, w, num_filters = input.shape
         output = np.zeros((h // 2, w // 2, num_filters))
 

@@ -4,6 +4,13 @@ from conv import Conv3x3
 from maxpool import MaxPool2
 from softmax import Softmax
 
+"""
+Heavily adapted from: https://victorzhou.com/blog/intro-to-cnns-part-1/
+[CREDIT TO VICTOR ZHOU]
+Simple Personal Project using a CNN to evaluate a number from images WITHOUT TRAINING/BACK PROP.
+Showcases use of Convolutional Neural Network WITHOUT training as there is a ~10% accuracy regarding guessing
+"""
+
 test_images = mnist.train_images()[:1000]
 test_labels = mnist.train_labels()[:1000]
 

@@ -4,25 +4,25 @@ import numpy as np
 class Conv3x3:
     def __init__(self, num_filters):
         """
-        [Description]
+        Initializes a convolutional layer utilizing 3x3 filters
 
-        Paramters:
+        Parameters:
             num_filters():
-                [Description]
+                Numerical filters reprsented as a 3x3 grid
         """
         self.num_filters = num_filters
         self.filters = np.random.randn(num_filters, 3, 3) / 9
 
     def iterate_regions(self, image):
         """
-        [Description]
+        Using valid padding, generates all image regions from image.
 
-        Paramters:
+        Parameters:
             image:
-                [Description]
+                2D numpy array
 
         Yields:
-
+            All valid 3x3 image regions
         """
         h, w = image.shape
 
@@ -32,6 +32,16 @@ class Conv3x3:
                 yield im_region, i, j
 
     def forward(self, input):
+        """
+        Forward pass of the Convolutional Layer using given input
+
+        Parameters:
+            input:
+                2D numpy array
+
+        Returns:
+            3D numpy array in which [i, j] contains convolutional results for pixel (i, j) of the image
+        """
         h, w = input.shape
         output = np.zeros((h - 2, w - 2, self.num_filters))
 
