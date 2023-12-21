@@ -24,9 +24,9 @@
 
 ## Personal Projects
 
-- Smart-Calendar: Current work-in-progress passion project that automatically and intelligently gives you a scheduled calendar with to-dos depending on your preferences. Back-end and algorithmic/AI focused.
+- Smart-Calendar: Current work-in-progress passion project that automatically and intelligently gives you a scheduled calendar with to-dos depending on your preferences. Back-end and algorithmic/AI focused. https://github.com/Relectrik/Smart-Calendar.
 
-- Recoup App: Project done during LMUHacks on 04/15/2023: https://github.com/Relectrik/RecoupApp
+- Recoup App -- Project done during LMUHacks on 04/15/2023: https://github.com/Relectrik/RecoupApp
 
 - Java-Basic-Blockchain: Heavily adapted from tutorial: https://medium.com/programmers-blockchain/creating-your-first-blockchain-with-java-part-2-transactions-2cdac335e0ce [**CREDIT TO CODER KASS**]. Bare-bones block chain that implements transactions between users utilizing Java OOP. (Note: Currently a small bug, regarding balance checking -- will be fixed ASAP).
 
