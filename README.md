@@ -22,6 +22,10 @@
 
 - CMSI3300 (Artificial Intelligence) Homework 2: Utilizing Bayesian Networks, Maximum Expected Utility and Value of Perfect Information to make intelligent decisions given a set of probabilities within a system. Worked with [**Aidan Bryce Dionisio**].
 
+- CMSI3300 (Artificial Intelligence) Homework 3: Utilizing Hidden Markov Models, to utilize particle filtering and noise emissions to solve a UC Berkeley Pacman problem by leveraging sklearn. Worked with [**Aidan Bryce Dionisio**].
+  
+- CMSI3300 (Artificial Intelligence) Homework 4: Utilizing data files to make predictions on wikipedia comments, and salary with neural networks by leveraging preprocessing methods in sklearn's toolkit. Worked with [**Aidan Bryce Dionisio**].
+
 ## Personal Projects
 
 - Smart-Calendar: Current work-in-progress passion project that automatically and intelligently gives you a scheduled calendar with to-dos depending on your preferences. Back-end and algorithmic/AI focused. https://github.com/Relectrik/Smart-Calendar.
