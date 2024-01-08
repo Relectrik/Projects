@@ -14,6 +14,25 @@ I also want to note that I use ChatGPT as my assistant when I work on projects. 
 
 ## Day 1 1/8/24
 I've built out a rough outline of my project:
-![Automated Gym Routine Flowchart](![Alt text](<Flowchart for Automated Gym Project.jpg>))
-    ### Motivations
-    
+(![Alt text](<Flowchart for Automated Gym Project.jpg>))
+### Motivations
+**The Knowledge Base**
+From a previous academic project in my Artifical Intelligence class, we utilized propositional logic (e.g. $\not P$) stored in Conjunctive Normal Form within a Knowledge Base for querying to navigate a Blind Bot within a maze of pitfalls. We would use proof by contradiction to query whether a new proposition is in line with the KB's current knowledge. Since the project is deterministic (e.g. if your chest is sore you are not working that out), we can utilize this paradigm within the context of this project.
+
+* Example KB:
+    * $\not Ch$
+    * $\not T$
+    * $\not SD$
+    * $Q$
+    * $H$
+    * $Ca$
+
+This example knowledge base indicates to us that the chest, triceps, and side deltoids are NOT sore, whereas the quadriceps, hamstrings, and calves ARE sore, such that when we query it with an example routine (e.g. $Ch \and T \and SD$), we would assume to the contrary, convert to CNF, then ask our knowledge base whether this results in a contradiction.
+
+**How do I implement progression based on soreness level?**
+* Knowledge Base only needs booleans to determine WHICH muscles to target
+* Therefore, I need some other tracking to determine volume increases based on previous workout's soreness levels (tracked through CSV file, where entries can also be vectorized)
+* KB determines WHAT exercises to do based on muscle groups that are NOT sore.
+
+**How to determine set count based on soreness record?**
+* Needs to aggregate (based on a heuristic) past days soreness levels to then decide how much to increment next session's set count.
