@@ -17,17 +17,17 @@ I've built out a rough outline of my project:
 (![Alt text](<Flowchart for Automated Gym Project.jpg>))
 ### Motivations
 **The Knowledge Base**
-From a previous academic project in my Artifical Intelligence class, we utilized propositional logic (e.g. $\not P$) stored in Conjunctive Normal Form within a Knowledge Base for querying to navigate a Blind Bot within a maze of pitfalls. We would use proof by contradiction to query whether a new proposition is in line with the KB's current knowledge. Since the project is deterministic (e.g. if your chest is sore you are not working that out), we can utilize this paradigm within the context of this project.
+From a previous academic project in my Artifical Intelligence class, we utilized propositional logic (e.g. $\neg P$) stored in Conjunctive Normal Form within a Knowledge Base for querying to navigate a Blind Bot within a maze of pitfalls. We would use proof by contradiction to query whether a new proposition is in line with the KB's current knowledge. Since the project is deterministic (e.g. if your chest is sore you are not working that out), we can utilize this paradigm within the context of this project.
 
 * Example KB:
-    * $\not Ch$
-    * $\not T$
-    * $\not SD$
+    * $\neg Ch$
+    * $\neg T$
+    * $\neg SD$
     * $Q$
     * $H$
     * $Ca$
 
-This example knowledge base indicates to us that the chest, triceps, and side deltoids are NOT sore, whereas the quadriceps, hamstrings, and calves ARE sore, such that when we query it with an example routine (e.g. $Ch \and T \and SD$), we would assume to the contrary, convert to CNF, then ask our knowledge base whether this results in a contradiction.
+This example knowledge base indicates to us that the chest, triceps, and side deltoids are NOT sore, whereas the quadriceps, hamstrings, and calves ARE sore, such that when we query it with an example routine (e.g. $Ch \land T \land SD$), we would assume to the contrary, convert to CNF, then ask our knowledge base whether this results in a contradiction.
 
 **How do I implement progression based on soreness level?**
 * Knowledge Base only needs booleans to determine WHICH muscles to target
