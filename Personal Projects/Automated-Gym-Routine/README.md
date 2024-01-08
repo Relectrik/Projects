@@ -14,10 +14,10 @@ I also want to note that I use ChatGPT as my assistant when I work on projects. 
 
 ## Day 1 1/8/24
 I've built out a rough outline of my project:
-(![Alt text](<Flowchart for Automated Gym Project.jpg>))
+![Alt text](<Flowchart for Automated Gym Project.jpg>)
 ### Motivations
 **The Knowledge Base**
-From a previous academic project in my Artifical Intelligence class, we utilized propositional logic (e.g. $\neg P$) stored in Conjunctive Normal Form within a Knowledge Base for querying to navigate a Blind Bot within a maze of pitfalls. We would use proof by contradiction to query whether a new proposition is in line with the KB's current knowledge. Since the project is deterministic (e.g. if your chest is sore you are not working that out), we can utilize this paradigm within the context of this project.
+From a previous academic project in my Artifical Intelligence class, we utilized propositional logic (e.g. $\neg P$) stored in Conjunctive Normal Form within a Knowledge Base for querying to navigate a Blind Bot within a maze of pitfalls. We would use proof by contradiction to query whether a new proposition is in line with the KB's current knowledge. Since this project is also deterministic (e.g. if your chest is sore you are not working that out), we can utilize this paradigm within the context of this project.
 
 * Example KB:
     * $\neg Ch$

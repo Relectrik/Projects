@@ -1,4 +1,5 @@
-#TODO: Convert KB to context of exercises
+# TODO: Convert KB to context of exercises
+
 
 class ExerciseClause:
     def __init__(self, props: Sequence[tuple]) -> None:
@@ -13,7 +14,7 @@ class ExerciseClause:
                     break
             self.props[prop[0]] = prop[1]
 
-def get_prop(self, prop: tuple[str, tuple[int, int]]) -> Optional[bool]:
+    def get_prop(self, prop: tuple[str, tuple[int, int]]) -> Optional[bool]:
         """
         Returns the truth value of the requested proposition if it exists
         in the current clause.
