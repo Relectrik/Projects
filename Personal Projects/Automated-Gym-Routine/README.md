@@ -20,19 +20,91 @@ I've built out a rough outline of my project:
 From a previous academic project in my Artifical Intelligence class, we utilized propositional logic (e.g. $\neg P$) stored in Conjunctive Normal Form within a Knowledge Base for querying to navigate a Blind Bot within a maze of pitfalls. We would use proof by contradiction to query whether a new proposition is in line with the KB's current knowledge. Since this project is also deterministic (e.g. if your chest is sore you are not working that out), we can utilize this paradigm within the context of this project.
 
 * Example KB:
+
     * $\neg Ch$
+
     * $\neg T$
+
     * $\neg SD$
+
     * $Q$
+
     * $H$
+    
     * $Ca$
 
 This example knowledge base indicates to us that the chest, triceps, and side deltoids are NOT sore, whereas the quadriceps, hamstrings, and calves ARE sore, such that when we query it with an example routine (e.g. $Ch \land T \land SD$), we would assume to the contrary, convert to CNF, then ask our knowledge base whether this results in a contradiction.
 
 **How do I implement progression based on soreness level?**
+
 * Knowledge Base only needs booleans to determine WHICH muscles to target
+
 * Therefore, I need some other tracking to determine volume increases based on previous workout's soreness levels (tracked through CSV file, where entries can also be vectorized)
+
 * KB determines WHAT exercises to do based on muscle groups that are NOT sore.
 
 **How to determine set count based on soreness record?**
+
 * Needs to aggregate (based on a heuristic) past days soreness levels to then decide how much to increment next session's set count.
+
+## Day 2 | 1/9/24
+I have finished implementing the ExerciseClause object such that it can now hold whether a muscle is sore or not. It is in the form: $Ch$ or $\neg Ch$, which represents whether the chest is able to be worked out or not, or whether the chest is not sore or is respectively. 
+
+In code:
+
+```
+            ExerciseClause([("Ch", True)])
+            ExerciseClause([("T", True)])
+            ExerciseClause([("Sd", False)])
+```
+which is represented as a dictionary:
+```
+            {
+                ("Ch" : True),
+                ("T" : True),
+                ("Sd" : False)
+            }
+```
+which indicates that the chest and triceps are not sore, while the side deltoid is.
+
+Furthermore, I have also implemented the knowledge base that will hold these clauses, which is simply a set that holds these clauses to be told and queried for the context of doing a predetermined routine for the day aka don't exercise a muscle that is sore on that day.
+
+Here's how we query:
+```
+def ask(self, query: "ExerciseClause") -> bool:
+        """
+        Given a ExerciseClause query, returns True if the KB entails the query,
+        False otherwise. Uses the proof by contradiction technique detailed
+        during the lectures.
+
+        Parameters:
+            query (ExerciseClause):
+                The query clause to determine if this is entailed by the KB
+
+        Returns:
+            bool:
+                True if the KB entails the query, False otherwise
+        """
+
+        working_clauses: set["ExerciseClause"] = deepcopy(self.clauses)
+        for alpha_prop in query.props.items():
+            working_clauses.add(ExerciseClause([(alpha_prop[0], not alpha_prop[1])]))
+
+        new_clauses: set["ExerciseClause"] = set()
+
+        while True:
+            for clause_1, clause_2 in itertools.combinations(working_clauses, 2):
+                resolvents: set["ExerciseClause"] = ExerciseClause.resolve(
+                    clause_1, clause_2
+                )
+
+                if any(resolvent.is_empty() for resolvent in resolvents):
+                    return True
+                new_clauses |= resolvents
+
+            if new_clauses <= working_clauses:
+                return False
+            working_clauses |= new_clauses
+```
+
+It's quite an unoptimized way to perform proof by contradiction on the knowledge base to check if the proposed query is entailed by the KB, however since the KB will have a maximum of 10-15 statements to inidicate the soreness of each muscle, there is a limit to the nested loop.
