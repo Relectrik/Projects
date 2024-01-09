@@ -1,8 +1,38 @@
 # TODO: Convert KB to context of exercises
+from typing import *
 
 
 class ExerciseClause:
     def __init__(self, props: Sequence[tuple]) -> None:
+        """
+        Constructs a new ExerciseClause from the given list of MazePropositions,
+        which are thus assumed to be disjoined in the resulting clause (by
+        definition of a clause). After checking that the resulting clause isn't
+        valid (i.e., vacuously true, or logically equivalent to True), stores
+        the resulting props mapped to their truth value in a dictionary.
+
+        Example:
+            The clause: P(1,1) v P(2,1) v ~P(1,2):
+            ExerciseClause([
+                (("P", (1, 1)), True),
+                (("P", (2, 1)), True),
+                (("P", (1, 2)), False)
+            ])
+
+            Will thus be converted to a dictionary of the format:
+
+            {
+                ("P", (1, 1)): True,
+                ("P", (2, 1)): True,
+                ("P", (1, 2)): False
+            }
+
+        Parameters:
+            props (Sequence[tuple]):
+                A list of maze proposition tuples of the format:
+                ((symbol, location), truth_val), e.g.
+                (("P", (1, 1)), True)
+        """
         self.props: dict[str, bool] = dict()
         self.valid: bool = False
 
@@ -14,7 +44,7 @@ class ExerciseClause:
                     break
             self.props[prop[0]] = prop[1]
 
-    def get_prop(self, prop: tuple[str, tuple[int, int]]) -> Optional[bool]:
+    def get_prop(self, prop: str) -> Optional[bool]:
         """
         Returns the truth value of the requested proposition if it exists
         in the current clause.
@@ -28,7 +58,7 @@ class ExerciseClause:
 
     def is_valid(self) -> bool:
         """
-        Determines if the given MazeClause is logically equivalent to True
+        Determines if the given ExerciseClause is logically equivalent to True
         (i.e., is a valid or vacuously true clause like (P(1,1) v P(1,1))
 
         Returns:
@@ -51,7 +81,7 @@ class ExerciseClause:
 
     def __eq__(self, other: Any) -> bool:
         """
-        Defines equality comparator between MazeClauses: only if they
+        Defines equality comparator between ExerciseClauses: only if they
         have the same props (in any order) or are both valid or not
 
         Parameters:
@@ -60,12 +90,12 @@ class ExerciseClause:
 
         Returns:
             bool:
-                Whether or not other is a MazeClause with the same props
+                Whether or not other is a ExerciseClause with the same props
                 and valid status as the current one
         """
         if other is None:
             return False
-        if not isinstance(other, MazeClause):
+        if not isinstance(other, ExerciseClause):
             return False
         return (
             frozenset(self.props) == frozenset(other.props)
@@ -74,7 +104,7 @@ class ExerciseClause:
 
     def __hash__(self) -> int:
         """
-        Provides a hash for a MazeClause to enable set membership
+        Provides a hash for a ExerciseClause to enable set membership
 
         Returns:
             int:
@@ -82,7 +112,7 @@ class ExerciseClause:
         """
         return hash((frozenset(self.props.items()), self.valid))
 
-    def _prop_str(self, prop: tuple[str, tuple[int, int]]) -> str:
+    def _prop_str(self, prop: str) -> str:
         """
         Returns a string representing a single prop, in the format: (X,(1, 1))
 
@@ -94,16 +124,16 @@ class ExerciseClause:
             str:
                 Stringified version of the given prop
         """
-        return "(" + prop[0] + ", (" + str(prop[1][0]) + "," + str(prop[1][1]) + "))"
+        return f"{prop}"
 
     def __str__(self) -> str:
         """
-        Returns a string representing a MazeClause in the format:
+        Returns a string representing a ExerciseClause in the format:
         {(X, (1,1)):True v (Y, (1,1)):False v (Z, (1,1)):True}
 
         Returns:
             str:
-                Stringified version of this MazeClause's props and mapped truth vals
+                Stringified version of this ExerciseClause's props and mapped truth vals
         """
         if self.valid:
             return "{True}"
@@ -123,21 +153,21 @@ class ExerciseClause:
         return len(self.props)
 
     @staticmethod
-    def resolve(c1: "MazeClause", c2: "MazeClause") -> set["MazeClause"]:
+    def resolve(c1: "ExerciseClause", c2: "ExerciseClause") -> set["ExerciseClause"]:
         """
-        Returns the set of non-valid MazeClauses that result from applying
+        Returns the set of non-valid ExerciseClauses that result from applying
         resolution to the two input.
 
-        [!] We return a set of MazeClauses for ease of dealing with sets in
+        [!] We return a set of ExerciseClauses for ease of dealing with sets in
         other contexts (like in MazeKnowledgeBase) even though the set
-        will only ever contain 0 or 1 resulting MazeClauses.
+        will only ever contain 0 or 1 resulting ExerciseClauses.
 
         Parameters:
-            c1, c2 (MazeClause):
-                The two MazeClauses being resolved.
+            c1, c2 (ExerciseClause):
+                The two ExerciseClauses being resolved.
 
         Returns:
-            set[MazeClause]:
+            set[ExerciseClause]:
                 There are 2 possible types of results:
                 - {}: The empty set if either c1 and c2 do NOT resolve (i.e., have
                   no propositions shared between them that are negated in one but
@@ -156,7 +186,7 @@ class ExerciseClause:
 
         for match in common_props:
             if c1.props[match] != c2.props[match]:
-                new_clause = MazeClause(
+                new_clause = ExerciseClause(
                     [
                         (prop, negation)
                         for prop, negation in c1.props.items()
