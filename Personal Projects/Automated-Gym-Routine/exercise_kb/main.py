@@ -1,5 +1,6 @@
 from exercise_clause import ExerciseClause as EC
 from exercise_knowledge_base import ExerciseKnowledgeBase as EKB
+from soreness_aggregator import SorenessAggregator as SA
 
 sore_chest = EC([("ch", False)])
 sore_tricep = EC([("t", False)])
