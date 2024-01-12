@@ -1,5 +1,7 @@
 import pandas as pd
 import datetime as dt
+import exercise_clause as EC
+import exercise_kb as EKB
 from typing import List
 from typing import Union
 
@@ -19,4 +21,18 @@ class SorenessAggregator:
         )
         soreness = [int(soreness_rating) for soreness_rating in cleaned_soreness]
 
+        if len(soreness) == 7:
+            soreness.append(dt.datetime.now().date())
+
         self.soreness_record.add(soreness)
+
+    def decide_workout(self) -> set():
+        pass
+
+    def calculate_volume(self, workout_record: pd.DataFrame) -> pd.DataFrame:
+        self.soreness_record.sort_values(by="Date")
+        prev_week_soreness = self.soreness_record.tail(7)
+
+        for row in prev_week_soreness:
+            # do some calculation to aggregate previous week's score
+            pass
