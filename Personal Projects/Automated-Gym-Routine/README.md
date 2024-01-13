@@ -119,14 +119,6 @@ This should be able to:
 
 
 ```
-import pandas as pd
-import datetime as dt
-import exercise_clause as EC
-import exercise_kb as EKB
-from typing import List
-from typing import Union
-
-
 class SorenessAggregator:
     def __init__(self, soreness_record: str) -> None:
         self.soreness_record: pd.DataFrame = pd.read_csv(soreness_record)
@@ -179,4 +171,21 @@ Chest, Triceps, Front Deltoid, Side Deltoid, Rear Deltoid, Back, Biceps, Quadric
 
 In this example, I do a push day (targets chest, triceps, front and side delt) before the record starts, and so my soreness levels that pertain to those muscles is a 1, so the algorithm chooses a pull day (back, biceps, rear delt) for me to perform. The next day, I record my soreness levels from the previous day, and so it chooses a leg day and so on. Notice, on the 16th, all my muscles have a soreness level, which is why you see that the next day that nothing is sore. The program, provided with the soreness levels of that day, suggested that I should do a break day to account for that.
 
-Now let's figure out the logic for calculating volume from the entries above. I don't want the aggregator to take more than the last 7 days of information, because the 
+### Aggregator Heuristic
+
+Now let's figure out the logic for calculating volume from the entries above. I don't want the aggregator to take more than the last 7 days of information, because those soreness levels refer to workouts with different volumes. 
+
+We can observe that if we add up the last 7 days of soreness levels for the chest, it will result in the number 5. The rest of the muscles will be: 5, 5, 5, 2, 2, 2, 4, 4, 4. Obviously in a more realistic circumstance, there will be more variation to the individual muscles in the bigger muscle group (e.g. the chest will likely be more sore than the side deltoids because the side deltoids can take more volume in a period of time).
+
+Thus, we can set some ranges of total soreness levels over the past week to determine what the volume of the next workout should be for that same muscle. If the muscle has had a total soreness that exceeds 4, we know that the current volume is affecting the muscle enough such that it *requires* recovery days, but if the muscle only feels kinda sore the next day, the next session must increase the volume for that muscle accordingly. These are relatively arbritrary from my own experience, but in pseudocode:
+
+```
+(per muscle)
+soreness = 0
+for entry in previous 7 days:
+    soreness += entry
+if soreness < 2:
+    set_count += 2
+elif soreness > 2 and soreness < 4:
+    set_count += 1
+```
