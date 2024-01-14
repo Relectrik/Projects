@@ -53,17 +53,30 @@ class SorenessAggregator:
 
         return approved_workouts
 
-    def calculate_volume(self, workout_record: pd.DataFrame) -> dict([str, int]):
+    def calculate_volume(self, workout_record: pd.DataFrame, muscle: str) -> int:
         prev_week_soreness: pd.DataFrame = self.soreness_record.tail(7)
-        muscle_to_soreness: dict([str, int])
+        volume_increase: int = 0
 
-        for muscle in prev_week_soreness.columns:
-            muscle_to_soreness[muscle] = 0
-            for soreness_val in prev_week_soreness[muscle].items():
-                muscle_to_soreness[muscle] += soreness_val
+        total_soreness = 0
+        for soreness_val in prev_week_soreness[muscle].items():
+            total_soreness += soreness_val
 
-            # do some calculation to aggregate previous week's score
-            pass
+        if total_soreness < 2:
+            volume_increase = 2
+        elif total_soreness > 2 and total_soreness < 4:
+            volume_increase = 1
+
+        return (
+            self.get_recent_volume_by_muscle(muscle, workout_record) + volume_increase
+        )
+
+    def get_recent_volume_by_muscle(
+        self, muscle: str, workout_record: pd.DataFrame
+    ) -> int:
+        sorted_workout_record = workout_record.sort_values(by="Date", ascending=False)
+        return sorted_workout_record[
+            sorted_workout_record["Muscle Group"] == muscle
+        ].iloc[0]["Sets"]
 
 
 x = SorenessAggregator("data/soreness_record.csv")
