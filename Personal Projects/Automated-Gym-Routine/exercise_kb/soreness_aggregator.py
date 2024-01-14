@@ -2,8 +2,7 @@ import pandas as pd
 import datetime as dt
 import exercise_clause as EC
 import exercise_knowledge_base as EKB
-from typing import List
-from typing import Union
+from typing import List, Union
 
 
 class SorenessAggregator:
@@ -54,10 +53,15 @@ class SorenessAggregator:
 
         return approved_workouts
 
-    def calculate_volume(self, workout_record: pd.DataFrame) -> pd.DataFrame:
-        prev_week_soreness = self.soreness_record.tail(7)
+    def calculate_volume(self, workout_record: pd.DataFrame) -> dict([str, int]):
+        prev_week_soreness: pd.DataFrame = self.soreness_record.tail(7)
+        muscle_to_soreness: dict([str, int])
 
-        for row in prev_week_soreness:
+        for muscle in prev_week_soreness.columns:
+            muscle_to_soreness[muscle] = 0
+            for soreness_val in prev_week_soreness[muscle].items():
+                muscle_to_soreness[muscle] += soreness_val
+
             # do some calculation to aggregate previous week's score
             pass
 
