@@ -7,6 +7,8 @@ I am a huge advocate for Renaissance Periodization, which is a group that focuse
 
 As a brief overview, the program should be able to take the individual's soreness levels per muscle group, and intelligently decide which exercises you should do based on what muscles are not sore. However, it should also be able to aggregate your recent soreness levels for your individual muscles to decide whether to change your volume (set count) for the exercise.
 
+A stylistic goal I had for this project was to make sure to use statically typed python for clarity. The first language I learned in-depth was Java, although I had begun basics with Python. I got used to the static typing aspect of Java, and while I was working on my Smart-Calendar project, I realized the insane annoyances of not type hinting in your program. So I was motivated to pursue that in this project, to eventually make it a habit for all my python projects.
+
 ## Day 0 | 1/7/24
 Thus far, I've only thought about the project abstractly and realized that the amount of time I take to decide these things and create spreadsheets for my routines can be done automatically.
 
@@ -189,3 +191,38 @@ if soreness < 2:
 elif soreness > 2 and soreness < 4:
     set_count += 1
 ```
+
+## Day 5 1/13/2024
+Since the Aggregator Heuristic has been finalized, we can utilize a psuedo-private (python smh) helper method to aid us in calculating the volume that the muscle should be hit with:
+```
+def calculate_volume(self, muscle: str) -> int:
+        prev_week_soreness: pd.DataFrame = self.soreness_record.tail(7)
+        volume_increase: int = 0
+
+        total_soreness: int = 0
+        for soreness_val in prev_week_soreness[muscle].items():
+            total_soreness += soreness_val[1]
+
+        if total_soreness < 2:
+            volume_increase = 2
+        elif total_soreness >= 2 and total_soreness <= 4:
+            volume_increase = 1
+
+        return self._get_recent_volume_by_muscle(muscle) + volume_increase
+
+    def _get_recent_volume_by_muscle(self, muscle: str) -> int:
+        sorted_workout_record: pd.DataFrame = self.workout_record.sort_values(
+            by="Date", ascending=False
+        )
+        return sorted_workout_record[
+            sorted_workout_record["Muscle Group"] == muscle
+        ].iloc[0]["Sets"]
+```
+
+Such that we receive the most recent workout of that muscle, aggregate recent soreness levels and return a new volume that could stay the same or change based on these soreness levels.
+
+An issue I spent a long time debugging is the sorting of these dataframes. I initially thought there was a problem when converting between CSV files and dataframe objects, where my goal was to sort the entries by date. Especially in the context of getting the most recent volume pertaining to a muscle. I found out, with the help of GPT, that the types of these datetime objects were getting muddled up. So I made sure that whenever I recorded a new entry, I utilized pandas' method:
+```
+pd.to_datetime(dt.datetime.now())
+```
+Otherwise, simply adding a datetime object will not be clear enough for python to **infer** that it is a timestamp. 

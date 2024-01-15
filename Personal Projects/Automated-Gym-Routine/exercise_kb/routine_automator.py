@@ -1,6 +1,8 @@
 from soreness_aggregator import SorenessAggregator as SA
+from typing import List
 import pandas as pd
 import datetime as dt
+import random
 
 
 class RoutineAutomator:
@@ -8,20 +10,36 @@ class RoutineAutomator:
         self.workout_record: pd.DataFrame = pd.read_csv(workout_record)
         self.aggregator: SA = SA(soreness_record, workout_record)
 
+        self.workout_record["Date"] = pd.to_datetime(self.workout_record["Date"])
+
+        self.workout_record.sort_values(by="Date")
+
+        self.loop = 0
+
     def give_workout(self):
-        approved_muscle_groups = self.aggregator.decide_muscles()
+        self.aggregator.record_soreness()
+        approved_muscle_groups: List[str] = self.aggregator.decide_muscles()
+        if not approved_muscle_groups:
+            print("Do not workout today")
+            return
         muscle_index = input(
             f"Choose which one (by index) of these workouts you would like to do: {approved_muscle_groups} \n"
         )
 
-        for muscle in approved_muscle_groups[muscle_index]:
+        for muscle in approved_muscle_groups[int(muscle_index)]:
             new_entry = {
                 "Muscle Group": muscle,
-                "Weight": self._get_last_workout_by_muscle(muscle)["Weight"],
-                "Reps": self._get_last_workout_by_muscle(muscle)["Reps"],
+                "Weight": self._random_progress(
+                    self._get_last_workout_by_muscle(muscle)
+                )["Weight"],
+                "Reps": self._random_progress(self._get_last_workout_by_muscle(muscle))[
+                    "Reps"
+                ],
                 "Sets": self.aggregator.calculate_volume(muscle),
-                "Reps": self._get_last_workout_by_muscle(muscle)["RIR"],
-                "Date": dt.datetime.now().date,
+                "RIR": self._random_progress(self._get_last_workout_by_muscle(muscle))[
+                    "RIR"
+                ],
+                "Date": pd.to_datetime(dt.datetime.now()),
             }
             self.workout_record.loc[len(self.workout_record)] = new_entry
 
@@ -36,3 +54,27 @@ class RoutineAutomator:
             .iloc[0]
             .to_dict()
         )
+
+    def _random_progress(self, last_workout: dict[str, int]) -> dict[str, int]:
+        to_progress: str = random.choice(["Weight", "RIR", "Reps"])
+
+        match to_progress:
+            case "Weight":
+                last_workout.update(
+                    {"Weight": last_workout["Weight"] + 5}
+                    if last_workout["Weight"] < 50
+                    else {"Reps": last_workout["Reps"] + 1}
+                )
+
+            case "RIR":
+                last_workout.update(
+                    {"RIR": last_workout["RIR"] - 1}
+                    if last_workout["RIR"] > 0
+                    else {"Reps": last_workout["Reps"] + 1}
+                )
+            case "Reps":
+                last_workout["Reps"] += 1
+            case _:
+                pass
+        print(last_workout)
+        return last_workout

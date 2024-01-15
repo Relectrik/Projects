@@ -2,7 +2,7 @@ import pandas as pd
 import datetime as dt
 import exercise_clause as EC
 import exercise_knowledge_base as EKB
-from typing import List, Union
+from typing import List, Union, Set
 
 
 class SorenessAggregator:
@@ -17,6 +17,10 @@ class SorenessAggregator:
         ]
         self.soreness_record: pd.DataFrame = pd.read_csv(soreness_record)
         self.workout_record: pd.DataFrame = pd.read_csv(workout_record)
+
+        self.soreness_record["Date"] = pd.to_datetime(self.soreness_record["Date"])
+        self.workout_record["Date"] = pd.to_datetime(self.workout_record["Date"])
+
         self.soreness_record.sort_values(by="Date")
         self.workout_record.sort_values(by="Date")
 
@@ -33,27 +37,30 @@ class SorenessAggregator:
         ]
 
         if len(soreness) == 10:
-            soreness.append(dt.datetime.now().date())
+            soreness.append(pd.to_datetime(dt.datetime.now()))
 
         self.soreness_record.loc[len(self.soreness_record)] = soreness
+        self.soreness_record.to_csv("data/soreness_record.csv", index=False, mode="w")
 
     def decide_muscles(self) -> List[str]:
-        curr_kb = EKB()
-        approved_workouts: List[str]
+        curr_kb = EKB.ExerciseKnowledgeBase()
+        approved_workouts: List[Set[str]] = []
 
         for muscle, soreness_val in self.soreness_record.iloc[-1].iloc[:-1].items():
-            curr_kb.tell(EC([(muscle, False if soreness_val > 0 else True)]))
+            curr_kb.tell(
+                EC.ExerciseClause([(muscle, False if soreness_val > 0 else True)])
+            )
         for routine in self.example_routines:
-            working_set: set()
+            working_set: Set[str] = set()
             for muscle in routine:
-                if not curr_kb.ask(EC([(muscle, True)])):
+                if not curr_kb.ask(EC.ExerciseClause([(muscle, True)])):
                     working_set = set()
                     break
                 else:
                     working_set.add(muscle)
-            approved_workouts.append(frozenset(working_set))
+            approved_workouts.append(working_set)
 
-        return approved_workouts
+        return [non_empty_set for non_empty_set in approved_workouts if non_empty_set]
 
     def calculate_volume(self, muscle: str) -> int:
         prev_week_soreness: pd.DataFrame = self.soreness_record.tail(7)
