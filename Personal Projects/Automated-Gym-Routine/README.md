@@ -7,7 +7,7 @@ I am a huge advocate for Renaissance Periodization, which is a group that focuse
 
 As a brief overview, the program should be able to take the individual's soreness levels per muscle group, and intelligently decide which exercises you should do based on what muscles are not sore. However, it should also be able to aggregate your recent soreness levels for your individual muscles to decide whether to change your volume (set count) for the exercise.
 
-A stylistic goal I had for this project was to make sure to use statically typed python for clarity. The first language I learned in-depth was Java, although I had begun basics with Python. I got used to the static typing aspect of Java, and while I was working on my Smart-Calendar project, I realized the insane annoyances of not type hinting in your program. So I was motivated to pursue that in this project, to eventually make it a habit for all my python projects.
+A stylistic goal I had for this project was to make sure to use statically typed python for clarity. The first language I learned in-depth was Java, although I had begun basics with Python. I got used to the static typing aspect of Java, and while I was working on my Smart-Calendar project (written in python), I realized the insane annoyances of not type hinting in your program, like when types get muddled up and you only see the issues pop up after you run the program. So I was motivated to pursue that in this project, to eventually make it a habit for all my python projects.
 
 ## Day 0 | 1/7/24
 Thus far, I've only thought about the project abstractly and realized that the amount of time I take to decide these things and create spreadsheets for my routines can be done automatically.
@@ -35,7 +35,7 @@ From a previous academic project in my Artifical Intelligence class, we utilized
     
     * $Ca$
 
-This example knowledge base indicates to us that the chest, triceps, and side deltoids are NOT sore, whereas the quadriceps, hamstrings, and calves ARE sore, such that when we query it with an example routine (e.g. $Ch \land T \land SD$), we would assume to the contrary, convert to CNF, then ask our knowledge base whether this results in a contradiction.
+In this example, the knowledge base indicates to us that the chest, triceps, and side deltoids ARE sore (not able to be worked out), whereas the quadriceps, hamstrings, and calves ARE NOT sore (able to be worked out), such that when we query it with an example routine (e.g. $Ch \land T \land SD$), we would assume to the contrary, convert to CNF, then ask our knowledge base whether this results in a contradiction.
 
 **How do I implement progression based on soreness level?**
 
@@ -111,7 +111,7 @@ def ask(self, query: "ExerciseClause") -> bool:
 
 It's quite an unoptimized way to perform proof by contradiction on the knowledge base to check if the proposed query is entailed by the KB, however since the KB will have a maximum of 10-15 statements to inidicate the soreness of each muscle, there is a limit to the nested loop.
 
-## Day 3 1/11/2024
+## Day 3 | 1/11/2024
 Since the logic for the knowledge base is working, it will accurately give me truth values that pertain to whether the muscle is able to be worked out or not. Now I can start on the Soreness Aggregator class. 
 
 This should be able to:
@@ -136,7 +136,7 @@ class SorenessAggregator:
         )
         soreness = [int(soreness_rating) for soreness_rating in cleaned_soreness]
 
-        if len(soreness) == 7:
+        if len(soreness) == 10:
             soreness.append(dt.datetime.now().date())
 
         self.soreness_record.add(soreness)
@@ -156,9 +156,9 @@ class SorenessAggregator:
 
 After populating the appropriate methods, I simply need to find a heuristic for determining how I want the volume of the workout to be calculated based upon the soreness levels in the past week.
 
-## Day 4 1/12/2024
+## Day 4 | 1/12/2024
 Here is an example entry of 7 days from the soreness_record.csv file:
-(Each of the soreness levels are between 0 - 2 to not overcomplicate the heuristic)
+(Each of the soreness levels are between 0 - 2 to not overcomplicate the heuristic, where 0 is not sore and 2 is extremely sore)
 
 ```
 Chest, Triceps, Front Deltoid, Side Deltoid, Rear Deltoid, Back, Biceps, Quadriceps, Hamstring, Calves, Date
@@ -192,7 +192,7 @@ elif soreness > 2 and soreness < 4:
     set_count += 1
 ```
 
-## Day 5 1/13/2024
+## Day 5 | 1/13/2024
 Since the Aggregator Heuristic has been finalized, we can utilize a psuedo-private (python smh) helper method to aid us in calculating the volume that the muscle should be hit with:
 ```
 def calculate_volume(self, muscle: str) -> int:
@@ -225,4 +225,68 @@ An issue I spent a long time debugging is the sorting of these dataframes. I ini
 ```
 pd.to_datetime(dt.datetime.now())
 ```
-Otherwise, simply adding a datetime object will not be clear enough for python to **infer** that it is a timestamp. 
+Otherwise, simply adding a datetime object will not be clear enough for python to **infer** that it is of datetime object type to sort. 
+
+## Day 6 | 1/14/2024
+Now that the logic for the aggregator is complete, we can now finally build our automator class, where in which it must be able to:
+
+* Give you a fully fledged workout with set count, RIR, rep count and weight.
+* This workout has to be a progression of the previous one.
+* The workout also has to take your soreness levels into account.
+
+```
+class RoutineAutomator:
+    def __init__(self, workout_record: str, soreness_record: str) -> None:
+        pass
+
+    def give_workout(self):
+        pass
+
+    def _get_last_workout_by_muscle(self, muscle: str) -> dict[str, int]:
+        pass
+
+    def _progress(self, last_workout: dict[str, int]) -> dict[str, int]:
+        pass
+
+```
+
+I also decided to remove the CSV file that held exercises pertaining to muscle groups because I want this progression to be used per mesocycle. Meaning the exercises will likely stay the same in the span of 3-12 weeks, therefore the user themselves can take into account which exercise they are doing for that muscle group every mesocycle.
+
+This is the main workhorse function `give_workout(self)` implements progression using a couple private helper methods, while also utilizing the SorenessAggregator class:
+
+```
+def give_workout(self):
+        self.aggregator.record_soreness()
+        approved_muscle_groups: List[str] = self.aggregator.decide_muscles()
+        if not approved_muscle_groups:
+            print("Do not workout today")
+            return
+        muscle_index = input(
+            f"Choose which one (by index) of these workouts you would like to do: {approved_muscle_groups} \n"
+        )
+
+        for muscle in approved_muscle_groups[int(muscle_index)]:
+            new_entry = {
+                "Muscle Group": muscle,
+                "Weight": self._random_progress(
+                    self._get_last_workout_by_muscle(muscle)
+                )["Weight"],
+                "Reps": self._random_progress(self._get_last_workout_by_muscle(muscle))[
+                    "Reps"
+                ],
+                "Sets": self.aggregator.calculate_volume(muscle),
+                "RIR": self._random_progress(self._get_last_workout_by_muscle(muscle))[
+                    "RIR"
+                ],
+                "Date": pd.to_datetime(dt.datetime.now()),
+            }
+            self.workout_record.loc[len(self.workout_record)] = new_entry
+
+        self.workout_record.to_csv("data/workout_record.csv", index=False, mode="w")
+
+```
+where at the end, it also records the new information to workout_record.csv.
+
+## Day 7 | 1/15/2024
+### Documentation!!! Whooo!
+Since all of the logic is complete for all of the classes and csv files. You simply need to run the main.py file to display a demo of what the project can do. Ultimately, if this project were to become a piece of software like a mobile application, you'd be able to start new mesocycles, and certain databases (like the csv files we used) can be utilized to store your data. As I mentioned earlier in the README, since the soreness levels can be vectorized, it can very easily be turned into a feature input for a basic neural network. Data would need to be engineered to classify what improvements the soreness levels and a certain set change would lead to differences in muscle mass gained, which would take a lot of research to look for the data.

@@ -5,33 +5,30 @@ from typing import *
 class ExerciseClause:
     def __init__(self, props: Sequence[tuple]) -> None:
         """
-        Constructs a new ExerciseClause from the given list of MazePropositions,
-        which are thus assumed to be disjoined in the resulting clause (by
-        definition of a clause). After checking that the resulting clause isn't
-        valid (i.e., vacuously true, or logically equivalent to True), stores
-        the resulting props mapped to their truth value in a dictionary.
+                Constructs a new ExerciseClause from the given list of MazePropositions,
+                which are thus assumed to be disjoined in the resulting clause (by
+                definition of a clause). After checking that the resulting clause isn't
+                valid (i.e., vacuously true, or logically equivalent to True), stores
+                the resulting props mapped to their truth value in a dictionary.
 
-        Example:
-            The clause: P(1,1) v P(2,1) v ~P(1,2):
-            ExerciseClause([
-                (("P", (1, 1)), True),
-                (("P", (2, 1)), True),
-                (("P", (1, 2)), False)
-            ])
+                Example:
+                    ExerciseClause([("Ch", True)])
+                    ExerciseClause([("T", True)])
+                    ExerciseClause([("Sd", False)])
+        ```
+        which is represented as a dictionary:
+        ```
+                    {
+                        ("Ch" : True),
+                        ("T" : True),
+                        ("Sd" : False)
+                    }
 
-            Will thus be converted to a dictionary of the format:
-
-            {
-                ("P", (1, 1)): True,
-                ("P", (2, 1)): True,
-                ("P", (1, 2)): False
-            }
-
-        Parameters:
-            props (Sequence[tuple]):
-                A list of maze proposition tuples of the format:
-                ((symbol, location), truth_val), e.g.
-                (("P", (1, 1)), True)
+                Parameters:
+                    props (Sequence[tuple]):
+                        A list of exercise proposition tuples of the format:
+                        (muscle , truth_val), e.g.
+                        ("Chest", True)
         """
         self.props: dict[str, bool] = dict()
         self.valid: bool = False
@@ -59,7 +56,7 @@ class ExerciseClause:
     def is_valid(self) -> bool:
         """
         Determines if the given ExerciseClause is logically equivalent to True
-        (i.e., is a valid or vacuously true clause like (P(1,1) v P(1,1))
+        (i.e., is a valid or vacuously true clause like (Chest v Chest)
 
         Returns:
             - True if this clause is logically equivalent with True
@@ -159,7 +156,7 @@ class ExerciseClause:
         resolution to the two input.
 
         [!] We return a set of ExerciseClauses for ease of dealing with sets in
-        other contexts (like in MazeKnowledgeBase) even though the set
+        other contexts (like in ExerciseKnowledgeBase) even though the set
         will only ever contain 0 or 1 resulting ExerciseClauses.
 
         Parameters:
