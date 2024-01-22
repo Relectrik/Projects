@@ -145,35 +145,3 @@ predicted_label = label_encoder.inverse_transform([predicted_class_index])[0]
 # Print the results
 print(f"Predicted Class Index: {predicted_class_index}")
 print(f"Predicted Label: {predicted_label}")
-
-
-# split_ratio = 0.8
-
-# split_index = int(split_ratio * len(all_images))
-
-# train_images = all_images[:split_index]
-# validation_images = all_images[split_index:]
-
-# train_datagen = ImageDataGenerator(
-#     rescale=1.0 / 255, shear_range=0.2, zoom_range=0.2, horizontal_flip=True
-# )
-
-# validation_datagen = ImageDataGenerator(rescale=1 / 255)
-
-# train_generator = train_datagen.flow_from_list(
-#     [os.path.join(image_dir, file) for file in train_images],
-#     target_size=(img_width, img_height),
-#     batch_size=batch_size,
-#     class_mode="categorical",  # Use categorical for multi-class classification
-#     labels=labels,
-#     label_func=extract_labels(file),
-# )
-
-# validation_generator = validation_datagen.flow_from_list(
-#     [os.path.join(image_dir, file) for file in validation_images],
-#     target_size=(img_width, img_height),
-#     batch_size=batch_size,
-#     class_mode="categorical",
-#     labels=labels,
-#     label_func=extract_labels(file),
-# )
