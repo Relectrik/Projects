@@ -2,12 +2,13 @@
 
 
 ## Personal Projects
+- Valorant Role Predictor: Trains on current ability icons and associated agent's roles as labels to then predict the role of another ability based on its icon.
+ 
+- Automated Gym Routine: Self-motivated project that can return a routine for you with set volumes, reps in range of concentric failure, weight and progression over time based on Renaissance Hypertrophy's ideals. Utilizes Propositional Logic in a knowledge base to query for soreness levels of muscles, and a simple soreness aggregator heuristic to calculate volume for next workout.
 
 - Smart-Calendar: Current work-in-progress passion project that automatically and intelligently gives you a scheduled calendar with to-dos depending on your preferences. Back-end and algorithmic/AI focused. https://github.com/Relectrik/Smart-Calendar.
 
 - Recoup App: Project done during LMUHacks (full-day hackathon) on 04/15/2023: https://github.com/Relectrik/RecoupApp. Replit server is currently down so API call is not working at the moment.
-
-- Automated Gym Routine: Self-motivated project that can return a routine for you with set volumes, reps in range of concentric failure, weight and progression over time based on Renaissance Hypertrophy's ideals. Utilizes Propositional Logic in a knowledge base to query for soreness levels of muscles, and a simple soreness aggregator heuristic to calculate volume for next workout.
 
 - Java-Basic-Blockchain: Heavily adapted from tutorial: https://medium.com/programmers-blockchain/creating-your-first-blockchain-with-java-part-2-transactions-2cdac335e0ce [**CREDIT TO CODER KASS**]. Bare-bones block chain that implements transactions between users utilizing Java OOP. (Note: Currently a small bug, regarding balance checking).
 
