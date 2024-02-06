@@ -2,6 +2,7 @@
 
 
 ## Personal Projects
+- Anomaly Detection: Mini-project to display my skills in data. Extracted and cleaned data from huggingface dataset. Used SDV's library to generate synthetic data to then introduce intentional anomalies. Experimented with scikit's IsolationForest by playing around with contamination rates.
 - Valorant Role Predictor: Trains on current ability icons and associated agent's roles as labels to then predict the role of another ability based on its icon.
  
 - Automated Gym Routine: Self-motivated project that can return a routine for you with set volumes, reps in range of concentric failure, weight and progression over time based on Renaissance Hypertrophy's ideals. Utilizes Propositional Logic in a knowledge base to query for soreness levels of muscles, and a simple soreness aggregator heuristic to calculate volume for next workout.
