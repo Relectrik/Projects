@@ -30,11 +30,11 @@ dataroot = "champ_icons/"
 workers = 0
 
 # Batch size during training
-batch_size = 1
+batch_size = 160
 
 # Spatial size of training images. All images will be resized to this
-#   size using a transformer.
-image_size = 120
+# size using a transformer.
+image_size = 64
 
 # Number of channels in the training images. For color images this is 3
 nc = 3
@@ -43,13 +43,13 @@ nc = 3
 nz = 100
 
 # Size of feature maps in generator
-ngf = 120
+ngf = 64
 
 # Size of feature maps in discriminator
-ndf = 120
+ndf = 64
 
 # Number of training epochs
-num_epochs = 5
+num_epochs = 250
 
 # Learning rate for optimizers
 lr = 0.0002
@@ -204,8 +204,8 @@ criterion = nn.BCELoss()
 fixed_noise = torch.randn(64, nz, 1, 1, device=device)
 
 # Establish convention for real and fake labels during training
-real_label = 1.0
-fake_label = 0.0
+real_label = 1
+fake_label = 0
 
 # Setup Adam optimizers for both G and D
 optimizerD = optim.Adam(netD.parameters(), lr=lr, betas=(beta1, 0.999))
@@ -313,4 +313,35 @@ plt.plot(D_losses, label="D")
 plt.xlabel("iterations")
 plt.ylabel("Loss")
 plt.legend()
+plt.show()
+
+fig = plt.figure(figsize=(8, 8))
+plt.axis("off")
+ims = [[plt.imshow(np.transpose(i, (1, 2, 0)), animated=True)] for i in img_list]
+ani = animation.ArtistAnimation(fig, ims, interval=1000, repeat_delay=1000, blit=True)
+
+HTML(ani.to_jshtml())
+
+# Grab a batch of real images from the dataloader
+real_batch = next(iter(dataloader))
+
+# Plot the real images
+plt.figure(figsize=(15, 15))
+plt.subplot(1, 2, 1)
+plt.axis("off")
+plt.title("Real Images")
+plt.imshow(
+    np.transpose(
+        vutils.make_grid(
+            real_batch[0].to(device)[:64], padding=5, normalize=True
+        ).cpu(),
+        (1, 2, 0),
+    )
+)
+
+# Plot the fake images from the last epoch
+plt.subplot(1, 2, 2)
+plt.axis("off")
+plt.title("Fake Images")
+plt.imshow(np.transpose(img_list[-1], (1, 2, 0)))
 plt.show()
