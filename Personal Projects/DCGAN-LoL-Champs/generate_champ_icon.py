@@ -1,4 +1,6 @@
 # %matplotlib inline
+import time
+import math
 import argparse
 import os
 import random
@@ -30,7 +32,7 @@ dataroot = "champ_icons/"
 workers = 0
 
 # Batch size during training
-batch_size = 160
+batch_size = 128
 
 # Spatial size of training images. All images will be resized to this
 # size using a transformer.
@@ -49,7 +51,7 @@ ngf = 64
 ndf = 64
 
 # Number of training epochs
-num_epochs = 250
+num_epochs = 600
 
 # Learning rate for optimizers
 lr = 0.0002
@@ -219,6 +221,8 @@ G_losses = []
 D_losses = []
 iters = 0
 
+start_time = time.time()
+print(start_time)
 print("Starting Training Loop...")
 # For each epoch
 for epoch in range(num_epochs):
@@ -306,6 +310,16 @@ for epoch in range(num_epochs):
 
         iters += 1
 
+
+def convert(seconds):
+    min, sec = divmod(seconds, 60)
+    hour, min = divmod(min, 60)
+    return "%d:%02d:%02d" % (hour, min, sec)
+
+
+print(f"current time: {time.time()}")
+print(f"seconds for training: {convert(time.time() - start_time)}")
+
 plt.figure(figsize=(10, 5))
 plt.title("Generator and Discriminator Loss During Training")
 plt.plot(G_losses, label="G")
@@ -338,7 +352,6 @@ plt.imshow(
         (1, 2, 0),
     )
 )
-
 # Plot the fake images from the last epoch
 plt.subplot(1, 2, 2)
 plt.axis("off")
