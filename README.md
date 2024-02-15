@@ -1,4 +1,4 @@
-## Projects
+# Projects
 Title | Description | Personal/Academic |
 |---|---|---|
 | [Anomaly Detection](https://github.com/Relectrik/Projects/tree/main/Personal%20Projects/Anomaly-Detection) | Extracted and cleaned data from huggingface dataset. Used SDV's library to generate synthetic data to then introduce intentional anomalies. Experimented with Scikit learn's IsolationForest by playing around with contamination rates. | **Personal** |
