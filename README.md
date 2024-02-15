@@ -1,5 +1,3 @@
-Sure, here are the projects sorted alphabetically by title:
-
 ## Projects
 Title | Description | Personal/Academic |
 |---|---|---|
