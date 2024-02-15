@@ -1,44 +1,21 @@
-# Projects
+Sure, here are the projects sorted alphabetically by title:
 
-
-## Personal Projects
-- Anomaly Detection: Mini-project to display my skills in data. Extracted and cleaned data from huggingface dataset. Used SDV's library to generate synthetic data to then introduce intentional anomalies. Experimented with scikit's IsolationForest by playing around with contamination rates.
-
-- Valorant Role Predictor: Trains on current ability icons and associated agent's roles as labels to then predict the role of another ability based on its icon.
- 
-- Automated Gym Routine: Self-motivated project that can return a routine for you with set volumes, reps in range of concentric failure, weight and progression over time based on Renaissance Hypertrophy's ideals. Utilizes Propositional Logic in a knowledge base to query for soreness levels of muscles, and a simple soreness aggregator heuristic to calculate volume for next workout.
-
-- Smart-Calendar: Current work-in-progress passion project that automatically and intelligently gives you a scheduled calendar with to-dos depending on your preferences. Back-end and algorithmic/AI focused. https://github.com/Relectrik/Smart-Calendar.
-
-- Recoup App: Project done during LMUHacks (full-day hackathon) on 04/15/2023: https://github.com/Relectrik/RecoupApp. Replit server is currently down so API call is not working at the moment.
-
-- Java-Basic-Blockchain: Heavily adapted from tutorial: https://medium.com/programmers-blockchain/creating-your-first-blockchain-with-java-part-2-transactions-2cdac335e0ce [**CREDIT TO CODER KASS**]. Bare-bones block chain that implements transactions between users utilizing Java OOP. (Note: Currently a small bug, regarding balance checking).
-
-- Python-Intro-CNN: UNTRAINED Convolutional Neural Network that reads the MNIST database of images. Heavily adapted from tutorial: https://victorzhou.com/blog/intro-to-cnns-part-1/ [**CREDIT TO VICTOR ZHOU**]. Basic implementation of CNN, however untrained and no backpropogation meaning only ~10% accuracy on predictions.
-
-
-## Academic Projects
-
-- CMSI2120 (Data Structures) Homework 3: Utilizes a prefix trie and recursion to implement an autocomplete feature.
-
----
-
-- CMSI2130 (Algorithms & Analysis) Homework 1: Utilizes A\* search to find optimal path within a maze with multiple goal states and uniform cost.
-
-- CMSI2130 (Algorithms & Analysis) Homework 2: Utilizes alphabeta pruning and Adversarial search to decide best possible move against an optimal opponent.
-
-- CMSI2130 (Algorithms & Analysis) Homework 3: Utilizes dynamic programming to guess a secret word using edit distance and a list of top-down transformations to turn one string into another. Useful in real life circumstances when spell-checking.
-
-- CMSI2130 (Algorithms & Analysis) Homework 4: Utilizes Huffman Encoding and Decoding to reduce size of files aka compression
-
-- CMSI2130 (Algorithms & Analysis) Homework 5: CSPs -- Utilizes Arc and Node consistency to satisfy constraints associated with meeting times
-
----
-
-- CMSI3300 (Artificial Intelligence) Homework 1: Utilizing Propositional Logic and use of KnowledgeBase for inference testing to navigate a BlindBot through a maze of pits. Worked with [**Aidan Bryce Dionisio**].
-
-- CMSI3300 (Artificial Intelligence) Homework 2: Utilizing Bayesian Networks, Maximum Expected Utility and Value of Perfect Information to make intelligent decisions given a set of probabilities within a system. Worked with [**Aidan Bryce Dionisio**].
-
-- CMSI3300 (Artificial Intelligence) Homework 3: Utilizing Hidden Markov Models, to utilize particle filtering and noise emissions to solve a UC Berkeley Pacman problem by leveraging sklearn. Worked with [**Aidan Bryce Dionisio**].
-  
-- CMSI3300 (Artificial Intelligence) Homework 4: Utilizing data files to make predictions on wikipedia comments, and salary with neural networks by leveraging preprocessing methods in sklearn's toolkit. Worked with [**Aidan Bryce Dionisio**].
+## Projects
+Title | Description | Personal/Academic |
+|---|---|---|
+| [Anomaly Detection](https://github.com/Relectrik/Projects/tree/main/Personal%20Projects/Anomaly-Detection) | Extracted and cleaned data from huggingface dataset. Used SDV's library to generate synthetic data to then introduce intentional anomalies. Experimented with Scikit learn's IsolationForest by playing around with contamination rates. | **Personal** |
+| [Automated Gym Routine](https://github.com/Relectrik/Projects/tree/main/Personal%20Projects/Automated-Gym-Routine) | Self-motivated project that can return a routine for you with set volumes, reps in range of concentric failure, weight and progression over time based on Renaissance Hypertrophy's ideals. Utilizes Propositional Logic in a knowledge base to query for soreness levels of mzuscles, and a simple soreness aggregator heuristic to calculate volume for next workout. | **Personal** |
+| [A* Search](https://github.com/Relectrik/Projects/tree/main/Academic%20Projects/CMSI2130/HW1) | Utilizes A* search to find optimal path within a maze with multiple goal states and uniform cost. | **Academic** // Algorithms & Analysis |
+| [Autocomplete](https://github.com/Relectrik/Projects/tree/main/Academic%20Projects/CMSI2120/HW3/homework3-Relectrik) | Utilizes a prefix trie and recursion to implement an autocomplete feature. | **Academic** // Data Structures & Applications|
+| [Bayesian Decision Making](https://github.com/Relectrik/Projects/tree/main/Academic%20Projects/CMSI3300/HW2) | Utilizing Bayesian Networks, Maximum Expected Utility and Value of Perfect Information to make intelligent decisions given a set of probabilities within a system. Worked with [Aidan Bryce Dionisio](https://github.com/GamerNerd-i). | **Academic** // Artificial Intelligence |
+| [Blindbot](https://github.com/Relectrik/Projects/tree/main/Academic%20Projects/CMSI3300/HW1) | Utilizing Propositional Logic and use of KnowledgeBase for inference testing to navigate a BlindBot through a maze of pits. Worked with [Aidan Bryce Dionisio](https://github.com/GamerNerd-i). | **Academic** // Artificial Intelligence |
+| [DCGAN on LoL Champion Icons](https://github.com/Relectrik/Projects/tree/main/Personal%20Projects/DCGAN-LoL-Champs) | Utilizes Deep Convolutional Generative Adversarial Network to replicate League of Legends Champion Icons taken from the Riot's API. | **Personal** |
+| [Distle](https://github.com/Relectrik/Projects/tree/main/Academic%20Projects/CMSI2130/HW3) | Utilizes dynamic programming to guess a secret word using edit distance and a list of top-down transformations to turn one string into another. Useful in real life circumstances when spell-checking. | **Academic** // Algorithms & Analysis |
+| [Huffman Tries](https://github.com/Relectrik/Projects/tree/main/Academic%20Projects/CMSI2130/HW4) | Utilizes Huffman Encoding and Decoding to compress size of files. | **Academic** // Algorithms & Analysis |
+| [Meeting Scheduling](https://github.com/Relectrik/Projects/tree/main/Academic%20Projects/CMSI2130/HW5) | Utilizes Arc and Node consistency to satisfy constraints associated with meeting times. | **Academic** // Algorithms & Analysis |
+| [Pac-man Particle Filtering](https://github.com/Relectrik/Projects/tree/main/Academic%20Projects/CMSI3300/HW3) | Utilizing Hidden Markov Models, to take advantage of particle filtering and noise emissions to solve a UC Berkeley Pacman problem by leveraging sklearn. Worked with [Aidan Bryce Dionisio](https://github.com/GamerNerd-i). | **Academic** // Artificial Intelligence |
+| [Recoup](https://github.com/Relectrik/RecoupApp) | Project done during a full-day hackathon in April 2023. Replit server is currently down so API call is not working at the moment. | **Personal** |
+| [Smart Calendar](https://github.com/Relectrik/Smart-Calendar) | Current work-in-progress passion project that automatically and intelligently gives you a scheduled calendar with to-dos depending on your preferences. Back-end and algorithmic/AI focused. | **Personal** |
+| [Tic-Tac-Total](https://github.com/Relectrik/Projects/tree/main/Academic%20Projects/CMSI2130/HW2) | Utilizes alphabeta pruning and Adversarial search to decide best possible move against an optimal opponent. | **Academic** // Algorithms & Analysis |
+| [Toxicity & Salary Predictors using ML](https://github.com/Relectrik/Projects/tree/main/Academic%20Projects/CMSI3300/HW4) | Utilizing data files to make predictions on wikipedia comments, and salary with neural networks by leveraging preprocessing methods in sklearn's toolkit. Worked with [Aidan Bryce Dionisio](https://github.com/GamerNerd-i). | **Academic** // Artificial Intelligence |
+| [Valorant Role Predictor](https://github.com/Relectrik/Projects/tree/main/Personal%20Projects/Valorant-Role-Predictor) | Trains on current ability icons and associated agent's roles as labels to then predict the role of another ability based on its icon. | **Personal** |
